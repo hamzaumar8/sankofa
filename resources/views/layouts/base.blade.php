@@ -99,10 +99,30 @@
                                             <img src="assets/images/svg/profile.svg" width="17" alt="">
                                         </a>
                                         <ul>
-                                            <li><a href="categories.html">Profile</a></li>
-                                            <li><a href="categories.html">LogOut</a></li>
+                                        @if(Route::has('login'))
+                                            @auth
+                                                @if(Auth::user()->utype === 'ADM')
+                                                    <li><a href="#">Admin {{Auth::user()->name}}</a></li>
+                                                    <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
+                                                   
+                                                @else 
+                                                    <li><a href="#">User {{Auth::user()->name}}</a></li>
+                                                    <li><a href="{{ route('user.dashboard') }}">Dashboard</a></li>
+                                                
+                                                @endif
+                                                <li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></li>
+                                                <form id="logout-form" method="POST" action="{{ route('logout') }}">
+                                                    @csrf
+                                                </form>
+                                            @else 
+                                                <li><a href="{{route('login')}}">Login</a></li>
+                                                <li><a href="{{route('register')}}">Register</a></li>
+                                            @endif
+                                        @endif
                                         </ul>
                                     </div>
+                                    
+
                                     <div class="hamburger">
                                         <img src="assets/images/svg/list-menu.svg" width="17" alt="">
                                     </div>
